@@ -68,7 +68,7 @@ public class LoadingIcon {
 		public void actionPerformed(ActionEvent e) {
 			time++;
 			angle = angle + Math.toRadians(0.005); 
-			line.rotate(angle);
+			line.rotate2(angle);
 			mainPanel.repaint();
 		}
 	}

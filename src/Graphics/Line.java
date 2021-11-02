@@ -48,6 +48,11 @@ public class Line {
 		x2 = tempPoint.x;
 		y2 = tempPoint.y;
 	}
+	public void rotate2(double angle) {
+		PointD tempPoint = rotatePoint2(angle, x1,y1,cx,cy);
+		x1 = tempPoint.x;
+		y1 = tempPoint.y;
+	}
 
 	/* 
 	 * The results (new point) are sent back as a PointD object (ie. a Point with doubles) */
@@ -70,6 +75,15 @@ public class Line {
 		PointD pd = new PointD(); 
 		pd.x = newx+centrex;
 		pd.y = newy+centrey;
+		return pd;
+	}
+	
+	PointD rotatePoint2(double angle,double x,double y,double centerx,double centery) {
+		double newx = (x-centerx)*Math.cos(angle) + (y-centery)*Math.sin(angle);
+		double newy = -(x-centerx*Math.cos(angle) + (y-centery)*Math.cos(angle));
+		PointD pd = new PointD();
+		pd.x = newx;
+		pd.y = newy;
 		return pd;
 	}
 
