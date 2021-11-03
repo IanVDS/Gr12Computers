@@ -23,6 +23,7 @@ public class LoadingIcon {
 
 	//Window stuff
 	static final int SIZE = 500;
+	static final double origin = 250.0;
 	DrawingPanel mainPanel = new DrawingPanel();
 
 	//Timer Stuff
@@ -31,7 +32,8 @@ public class LoadingIcon {
 	int t_pause = 1000;
 	int time;
 
-	Line line = new Line (100.0,100.0,300.0,300.0);
+	Line line = new Line (100.0,100.0,300.0,300.0,origin);
+	Line line2 = new Line (150,150,300,150,origin);
 	double angle = 0.0;
 
 	LoadingIcon() {
@@ -69,6 +71,7 @@ public class LoadingIcon {
 			time++;
 			angle = angle + Math.toRadians(0.005); 
 			line.rotate2(angle);
+			line2.rotate3(angle);
 			mainPanel.repaint();
 		}
 	}
@@ -94,6 +97,8 @@ public class LoadingIcon {
 
 			//g.drawLine(line.x1,line.y1,line.x2, line.y2);
 			line.paint(g);
+			g.setColor(Color.BLUE);
+			line2.paint(g);
 
 
 			g2d.dispose(); //only dispose of graphics objects that you have created

@@ -8,21 +8,23 @@ import java.awt.Graphics;
  *
  */
 public class Line {
-	private double x1, x2, y1, y2;
+	private double x1, x2, y1, y2,origin;
 
 	public final double cx,cy; //coordinates of the centre of the line
 
-	public Line (double x1, double y1, double x2, double y2){
+	public Line (double x1, double y1, double x2, double y2,double origin){
 		this.x1=x1;
 		this.y1=y1;
 		this.x2=x2;
 		this.y2=y2;
+		this.origin = origin;
 
 		cx = (x1 + x2)/2.0;
 		cy = (y1 + y2)/2.0;
 
 	}
 
+	//hello
 	/**
 	 * Purpose: Paint the line on the graphics context<br> 
 	 * Called from: TimerRotate.DrawingPanel.paintComponent()<br>
@@ -49,9 +51,16 @@ public class Line {
 		y2 = tempPoint.y;
 	}
 	public void rotate2(double angle) {
-		PointD tempPoint = rotatePoint2(angle, x1,y1,cx,cy);
+		PointD tempPoint = rotatePoint(angle, x1,y1,x2,y2);
 		x1 = tempPoint.x;
 		y1 = tempPoint.y;
+	}
+	public void rotate3(double angle) {
+		PointD tempPoint = rotatePoint2(angle, x1,y1,x2,y2,origin);
+		x1 = tempPoint.x;
+		y1 = tempPoint.y;
+		x2 = tempPoint.x2;
+		y2 = tempPoint.y2;
 	}
 
 	/* 
@@ -77,21 +86,29 @@ public class Line {
 		pd.y = newy+centrey;
 		return pd;
 	}
-	
-	PointD rotatePoint2(double angle,double x,double y,double centerx,double centery) {
-		double newx = (x-centerx)*Math.cos(angle) + (y-centery)*Math.sin(angle);
-		double newy = -(x-centerx*Math.cos(angle) + (y-centery)*Math.cos(angle));
-		PointD pd = new PointD();
-		pd.x = newx;
-		pd.y = newy;
+	PointD rotatePoint2(double angle, double x, double y, double x2,double y2, double origin) {
+		double newx = (x-origin) * Math.cos(angle) + (y-origin) * Math.sin(angle);
+		double newy = -(x-origin) * Math.sin(angle) + (y-origin) * Math.cos(angle);
+		double newx2 = (x-origin) * Math.cos(angle) + (y-origin) * Math.sin(angle);
+		double newy2 = -(x-origin) * Math.sin(angle) + (y-origin) * Math.cos(angle);
+		PointD pd = new PointD(); 
+		pd.x = newx+origin;
+		pd.y = newy+origin;
+		pd.x2 = newx2+origin;
+		pd.y2 = newy2+origin;
 		return pd;
 	}
+	
+	
+	
 
 
 	/** This is a small class that enables the user to have a point with x,y fields that are double
 	 *  instead of "int" that java.awt.Point forces you to have.
 	 */
 	private class PointD {
+		public double y2;
+		public double x2;
 		double x, y;
 	}
 }

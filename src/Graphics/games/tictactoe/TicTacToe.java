@@ -249,16 +249,15 @@ public class TicTacToe {
 				}
 			}
 			//TODO check for tie
-			for(int i=0;i<GRID;i++) {
-				for(int j=0;j<GRID;j++) {
-					if(board[i][j]!=0) {
-						spaceCounter--;
-					}
-				}
+			if(empty==true) {
+				spaceCounter--;
 			}
+			
+			System.out.println(spaceCounter);
 			if(spaceCounter==0 && xWin==false &&oWin==false) {
 				tie=true;
 			}
+			
 			//TODO change turn
 			if (empty==true) {
 				turn++;

@@ -52,7 +52,7 @@ public class TimerRotate implements KeyListener{
 	int time;       //just to display elapsed time. This should be compared with System.currentTimeMillis()
 
 	//Other objects and variables
-	Line line = new Line(100.0, 100.0, 20.0, 30.0); 
+	Line line = new Line(100.0, 100.0, 300.0, 300.0,250.0); 
 	double angle = 0.0;
 
 
@@ -98,7 +98,7 @@ public class TimerRotate implements KeyListener{
 		public void actionPerformed(ActionEvent e) {
 			time++;
 			angle = angle + Math.toRadians(0.005); 
-			line.rotate(angle);
+			line.rotate2(angle);
 			mainPanel.repaint();
 		}
 	}
