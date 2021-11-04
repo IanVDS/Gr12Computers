@@ -8,7 +8,7 @@ import java.awt.Graphics;
  *
  */
 public class Line {
-	private double x1, x2, y1, y2,origin;
+	public double x1, x2, y1, y2,origin;
 
 	public final double cx,cy; //coordinates of the centre of the line
 

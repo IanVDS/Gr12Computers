@@ -32,9 +32,16 @@ public class LoadingIcon {
 	int t_pause = 1000;
 	int time;
 
-	Line line = new Line (100.0,100.0,300.0,300.0,origin);
-	Line line2 = new Line (150,150,300,150,origin);
-	double angle = 0.0;
+	int line1X1 = 100;
+	int line1Y = 100;
+	int line1X2 = 175;
+	
+	int line2X1 = 250;
+	int line2X2 = 325;
+	int line2Y = 200;
+	
+	
+	
 
 	LoadingIcon() {
 
@@ -69,9 +76,8 @@ public class LoadingIcon {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			time++;
-			angle = angle + Math.toRadians(0.005); 
-			line.rotate2(angle);
-			line2.rotate3(angle);
+			
+			
 			mainPanel.repaint();
 		}
 	}
@@ -95,13 +101,11 @@ public class LoadingIcon {
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-			//g.drawLine(line.x1,line.y1,line.x2, line.y2);
-			line.paint(g);
-			g.setColor(Color.BLUE);
-			line2.paint(g);
+			g.drawLine(line1X1, line1Y, line1X2, line1Y);
+			g.drawLine(line2X1,line2Y,line2X2,line2Y);
 
 
-			g2d.dispose(); //only dispose of graphics objects that you have created
+//			g2d.dispose(); //only dispose of graphics objects that you have created
 		}
 	}
 

@@ -122,7 +122,7 @@ public class TimerRotate implements KeyListener{
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-			//g.drawLine(line.x1,line.y1,line.x2, line.y2);
+			g.drawLine((int)line.x1,(int)line.y1,(int)line.x2,(int) line.y2);
 			line.paint(g);
 
 			g.drawString("TIME1=" + time*t_speed, 50,50);
