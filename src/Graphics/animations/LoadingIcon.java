@@ -28,6 +28,7 @@ public class LoadingIcon {
 
 	//Timer Stuff
 	Timer timer;
+	Ball ball = new Ball(5.0,5.0,5.0,5.0,5.0,SIZE);
 	private int t_speed = 5;
 	int t_pause = 1000;
 	int time;
@@ -38,7 +39,7 @@ public class LoadingIcon {
 	
 	int line2X1 = 250;
 	int line2X2 = 325;
-	int line2Y = 200;
+	int line2Y = 100;
 	
 	
 	
@@ -78,6 +79,12 @@ public class LoadingIcon {
 			time++;
 			
 			
+			ball.bounceWall(ball.vx,ball.x1,ball.x1+ball.sx,0,SIZE);
+			ball.bounceFloor(ball.vy,ball.y1+ball.sy,SIZE);
+			ball.horizontalCalc();
+			ball.heightCalc();
+			
+			
 			mainPanel.repaint();
 		}
 	}
@@ -103,6 +110,8 @@ public class LoadingIcon {
 
 			g.drawLine(line1X1, line1Y, line1X2, line1Y);
 			g.drawLine(line2X1,line2Y,line2X2,line2Y);
+			ball.paint(g);
+			
 
 
 //			g2d.dispose(); //only dispose of graphics objects that you have created
