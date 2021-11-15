@@ -1,5 +1,6 @@
 package Graphics.animations;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -9,6 +10,7 @@ import javax.swing.*;
 
 import Graphics.Line;
 
+//Ian Van den Steen
 public class LoadingIcon {
 
 	public static void main(String[] args) {
@@ -28,8 +30,9 @@ public class LoadingIcon {
 
 	//Timer Stuff
 	Timer timer;
-	Ball ball = new Ball(5.0,5.0,5.0,5.0,5.0,SIZE);
-	private int t_speed = 5;
+	Ball ball = new Ball(5.0,100.0,5.0,5.0,5.0,SIZE);
+	Line line = new Line(250.0,250.0,250.0,250.0,250.0);
+	private int t_speed = 10;
 	int t_pause = 1000;
 	int time;
 
@@ -40,7 +43,7 @@ public class LoadingIcon {
 	int line2X1 = 250;
 	int line2X2 = 325;
 	int line2Y = 100;
-	
+	double angle=240;
 	
 	
 
@@ -49,8 +52,8 @@ public class LoadingIcon {
 		//all window stuff
 		JFrame window = new JFrame("Timers");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setSize(SIZE,SIZE);
-
+//		window.setSize(SIZE,SIZE);
+//		mainPanel.setSize(SIZE,SIZE);
 		/***********************************************************
 		 * This is how you get the monitor screen resolution size  *
 		 * and make your program take up the whole screen.         *
@@ -61,6 +64,7 @@ public class LoadingIcon {
 		window.setLocationRelativeTo(null);
 
 		window.add(mainPanel);
+		window.pack();
 		window.setVisible(true);
 
 		//all timer stuff (start after window is shown)
@@ -80,10 +84,10 @@ public class LoadingIcon {
 			
 			
 			ball.bounceWall(ball.vx,ball.x1,ball.x1+ball.sx,0,SIZE);
-			ball.bounceFloor(ball.vy,ball.y1+ball.sy,SIZE);
+			ball.bounceFloor(ball.y1+ball.sy,SIZE);
 			ball.horizontalCalc();
 			ball.heightCalc();
-			
+			line.rotate(angle);
 			
 			mainPanel.repaint();
 		}
@@ -96,6 +100,7 @@ public class LoadingIcon {
 		DrawingPanel() {
 			//put background colour here
 			this.setBackground(Color.WHITE);
+			this.setPreferredSize(new Dimension(SIZE,SIZE));
 		}
 
 		/***************************/
@@ -110,7 +115,9 @@ public class LoadingIcon {
 
 			g.drawLine(line1X1, line1Y, line1X2, line1Y);
 			g.drawLine(line2X1,line2Y,line2X2,line2Y);
-			ball.paint(g);
+			g.drawLine(0, SIZE, SIZE, SIZE);
+			ball.paint(g2d);
+			line.paint(g2d);
 			
 
 

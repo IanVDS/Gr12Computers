@@ -62,6 +62,17 @@ public class Line {
 		x2 = tempPoint.x2;
 		y2 = tempPoint.y2;
 	}
+	public void rotate4(double angle) {
+		if(angle>225) {
+			PointD tempPoint = rotatePoint(angle, x1,y1,x2,y2);
+			x1 = tempPoint.x;
+			y1 = tempPoint.y;
+		}else if(angle<315) {
+			PointD tempPoint = rotatePoint3(angle, x1,y1,x2,y2);
+			x1 = tempPoint.x;
+			y1 = tempPoint.y;
+		}
+	}
 
 	/* 
 	 * The results (new point) are sent back as a PointD object (ie. a Point with doubles) */
@@ -96,6 +107,14 @@ public class Line {
 		pd.y = newy+origin;
 		pd.x2 = newx2+origin;
 		pd.y2 = newy2+origin;
+		return pd;
+	}
+	PointD rotatePoint3(double angle, double x, double y, double centrex, double centrey) {
+		double newx = -((x-centrex) * Math.cos(angle) + (y-centrey) * Math.sin(angle));
+		double newy = -(-(x-centrex) * Math.sin(angle) + (y-centrey) * Math.cos(angle));
+		PointD pd = new PointD(); 
+		pd.x = newx+centrex;
+		pd.y = newy+centrey;
 		return pd;
 	}
 	

@@ -1,8 +1,11 @@
 package Graphics.animations;
+//Ian Van den Steen
+
 import java.awt.Graphics;
 public class Ball {
 	public double x1,sx,y1,sy,vx,vy;
-
+	public double yCurrent = 100.0;
+	public int wallsBounced=0,rS;
 
 	public Ball(double x1,double y1,double sx,double sy,double vx, int rS) {
 		this.x1=x1;
@@ -12,30 +15,42 @@ public class Ball {
 		this.vx = vx;
 		double vy=0;
 		this.vy = vy;
+		this.rS = rS;
+		
+
 
 	}
 
 
 	public void paint(Graphics g) {
-		g.fillOval((int)x1, (int)y1, (int)sx, (int)sy);
+		g.fillOval((int)x1, (int)y1, (int)(sx), (int)(sy));
 	}
 
 	public void bounceWall(double vx, double bx1, double bx2,int lS, int rS) {
 		if(bx1 < 0 || bx2 > rS) {
 			this.vx = -vx;
+			wallsBounced=1;
 		}
 	}
-	public void bounceFloor(double vy,double by2,int bS) {
+	public void bounceFloor(double by2,int bS) {
 		if(by2 > bS) {
-			this.vy = -vy;
+			wallsBounced=2;
+			yCurrent = bS;
 		}
+
 	}
+	
 	public void horizontalCalc() {
 		x1 = x1+vx;
 	}
 	public void heightCalc() {
-		vy = 0.1*((vx))*((vx));
-		y1+=vy;
+		if(wallsBounced==0) {
+			y1 = yCurrent-Math.abs(30*Math.sin(x1*5));
+		}else if(wallsBounced==1) {
+			y1 = yCurrent+(x1-rS)*(x1-rS)*0.05;
+		}else if(wallsBounced==2) {
+			y1 = yCurrent-Math.abs(30*Math.sin(x1*5));
+		}
 	}
 
 
