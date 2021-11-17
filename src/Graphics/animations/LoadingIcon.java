@@ -30,9 +30,9 @@ public class LoadingIcon {
 
 	//Timer Stuff
 	Timer timer;
-	Ball ball = new Ball(5.0,50.0,5.0,5.0,5.0,SIZE);
+	Ball ball = new Ball(75.0,45.0,5.0,5.0,5.0,SIZE);
 	Line line = new Line(250.0,250.0,250.0,250.0,250.0);
-	Line line2 = new Line(50.0,SIZE,100.0,SIZE,250.0);
+	Line line2 = new Line(50.0,50.0,100.0,50.0,250.0);
 	private int t_speed = 10;
 	int t_pause = 1000;
 	int time;
@@ -92,9 +92,9 @@ public class LoadingIcon {
 			ball.elevLift(ball.x1);
 			ball.restart(ball.y1);
 			if(ball.wallsBounced==3) {
-				if(line2.y1>50) {
-					line2.lift();
-				}
+				line2.lift();
+			}else if(ball.wallsBounced<3) {
+				line2.lower();
 			}
 			
 			mainPanel.repaint();
@@ -124,6 +124,7 @@ public class LoadingIcon {
 			g.drawLine(line1X1, line1Y, line1X2, line1Y);
 			g.drawLine(line2X1,line2Y,line2X2,line2Y);
 			g.drawLine(0, SIZE, SIZE, SIZE);
+			g.drawLine(75, 0, 75, SIZE);
 			ball.paint(g2d);
 			line.paint(g2d);
 			line2.paint(g2d);

@@ -72,12 +72,16 @@ public class Line {
 		y2 = tempPoint.y;
 	}
 	public void lift() {
-		y1-=1;
-		y2-=1;
+		if(y1>50) {
+			y1-=1;
+			y2-=1;
+		}
 	}
 	public void lower() {
-		y1+=1;
-		y2+=1;
+		if(y1<=500) {
+			y1+=3.75;
+			y2+=3.75;
+		}
 	}
 
 	/* 
