@@ -39,17 +39,32 @@ public class Ball {
 		}
 
 	}
+	public void elevLift(double x1) {
+		if(x1==75&&wallsBounced==2) {
+			wallsBounced=3;
+		}
+	}
+	public void restart(double y1) {
+		if(y1<=45&&wallsBounced==3) {
+			yCurrent=y1;
+			wallsBounced=0;
+			vx=1;
+		}
+	}
 	
 	public void horizontalCalc() {
 		x1 = x1+vx;
 	}
 	public void heightCalc() {
 		if(wallsBounced==0) {
-			y1 = yCurrent-Math.abs(30*Math.sin(x1*5));
+			y1 = yCurrent-Math.abs((100/x1)*30*Math.cos(x1*5));
 		}else if(wallsBounced==1) {
 			y1 = yCurrent+(x1-rS)*(x1-rS)*0.05;
 		}else if(wallsBounced==2) {
-			y1 = yCurrent-Math.abs(30*Math.sin(x1*5));
+			y1 = yCurrent-Math.abs((150/(rS-x1))*30*Math.cos(x1*5))-3;
+		}else if(wallsBounced==3) {
+			y1-=1;
+			vx=0;
 		}
 	}
 

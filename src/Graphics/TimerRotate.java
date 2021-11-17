@@ -53,6 +53,7 @@ public class TimerRotate implements KeyListener{
 
 	//Other objects and variables
 	Line line = new Line(100.0, 100.0, 300.0, 300.0,250.0); 
+	Line line2 = new Line(100.0, 100.0, 300.0, 300.0,250.0); 
 	double angle = 0.0;
 
 
@@ -97,8 +98,9 @@ public class TimerRotate implements KeyListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			time++;
-			angle = angle + Math.toRadians(0.005); 
+			angle += (Math.toRadians(0.005))%(Math.PI*2); 
 			line.rotate2(angle);
+			line2.rotate4(angle);
 			mainPanel.repaint();
 		}
 	}
@@ -124,7 +126,8 @@ public class TimerRotate implements KeyListener{
 
 			g.drawLine((int)line.x1,(int)line.y1,(int)line.x2,(int) line.y2);
 			line.paint(g);
-
+			line2.paint(g);
+			
 			g.drawString("TIME1=" + time*t_speed, 50,50);
 
 			g2d.dispose(); //only dispose of graphics objects that you have created

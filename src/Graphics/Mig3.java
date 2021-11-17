@@ -3,15 +3,15 @@ package Graphics;
 
 import javax.swing.*;
 import javax.swing.JFrame;
-import net.miginfocom.swing.MigLayout;
+//import net.miginfocom.swing.MigLayout;
 
 public class Mig3 {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new Mig3();
+		
 	}
-	
+	/*
 	//variables
 	JLabel nameLbl = new JLabel("Name:");
 	JTextField fnameTxtFld = new JTextField("",15);
@@ -90,6 +90,7 @@ public class Mig3 {
 		panel.add(crsMrks,"span 2,wrap");
 		panel.add(crsProf,"span 2");
 	}
+	*/
 	
 	
 	
