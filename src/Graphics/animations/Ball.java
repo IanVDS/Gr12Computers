@@ -28,22 +28,25 @@ public class Ball {
 		g.fillOval((int)x1, (int)y1, (int)(sx), (int)(sy));
 	}
 
-	public void bounceWall(double vx, double bx1, double bx2,int lS, int rS) {//hits the left wall
+	public void bounceWall(double vx, double bx1, double bx2) {//hits the left wall
 		if(bx1 < 0 || bx2 > rS) {
 			this.vx = -vx;
 			wallsBounced=1;
+			
 		}
 	}
-	public void bounceFloor(double by2,int bS) {//hits the floor
-		if(by2 > bS) {
+	public void bounceFloor(double by2) {//hits the floor
+		if(by2 > rS) {
 			wallsBounced=2;
-			yCurrent = bS;
+			yCurrent = rS;
 		}
 
 	}
 	public void elevLift(double x1) {//reaches the elevator
 		if(x1==75&&wallsBounced==2) {
 			wallsBounced=3;
+			System.out.println(this.y1);
+			
 		}
 	}
 	public void restart(double y1) {//restarts the loop
@@ -62,11 +65,11 @@ public class Ball {
 	}
 	public void heightCalc() {//calculates height based on the last wall/checkpoint the ball has hit
 		if(wallsBounced==0) {
-			y1 = yCurrent-Math.abs((100/x1)*30*Math.cos(x1*5));//bounces
+			y1 = yCurrent-Math.abs((200/x1)*30*Math.cos(x1*5));//bounces
 		}else if(wallsBounced==1) {
 			y1 = yCurrent+(x1-rS)*(x1-rS)*0.05;//falls
 		}else if(wallsBounced==2) {
-			y1 = yCurrent-Math.abs((150/(rS-x1))*30*Math.cos(x1*5))-3;//bounces
+			y1 = yCurrent-Math.abs((200/(rS-x1))*30*Math.cos(x1*5))-3;//bounces
 		}else if(wallsBounced==3) {
 			y1-=1;//is raised
 			vx=0;

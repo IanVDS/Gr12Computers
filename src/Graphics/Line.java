@@ -23,6 +23,15 @@ public class Line {
 		cy = (y1 + y2)/2.0;
 
 	}
+	public Line(int x1,int x2,int y) {
+		this.x1=x1;
+		this.x2=x2;
+		this.y1=y;
+		this.y2=y;
+
+		cx=(x1+x2)/2.0;
+		cy=y;
+	}
 
 	//hello
 	/**
@@ -50,7 +59,7 @@ public class Line {
 		x2 = tempPoint.x;
 		y2 = tempPoint.y;
 	}
-	public void rotate2(double angle) {
+	public void rotate2(double angle) {//rotates around end point
 		PointD tempPoint = rotatePoint(angle, x1,y1,x2,y2);
 		x1 = tempPoint.x;
 		y1 = tempPoint.y;
@@ -63,13 +72,13 @@ public class Line {
 		y2 = tempPoint.y2;
 	}
 	public void rotate4(double angle) {
-		PointD tempPoint = rotatePoint(angle, x1,y1,cx,cy);
-		x1 = tempPoint.x;
-		y1 = tempPoint.y;
+		PointD tempPoint;
 
-		tempPoint = rotatePoint3(angle, x2,y2,cx,cy);
+		tempPoint = rotatePoint3(angle, x1,y1,x2,y2);
 		x2 = tempPoint.x;
 		y2 = tempPoint.y;
+
+
 	}
 	public void lift() {
 		if(y1>50) {
@@ -78,7 +87,7 @@ public class Line {
 		}
 	}
 	public void lower() {
-		if(y1<=500) {
+		if(y1<=495) {
 			y1+=3.75;
 			y2+=3.75;
 		}
@@ -120,16 +129,16 @@ public class Line {
 		return pd;
 	}
 	PointD rotatePoint3(double angle, double x, double y, double centrex, double centrey) {
-		double newx = ((x-centrex) * (Math.cos(angle)%(Math.PI*2)) + (y-centrey) * (Math.sin(angle)%(Math.PI*2)));
-		double newy = (-(x-centrex) * (Math.sin(angle)%(Math.PI*2)) + (y-centrey) * (Math.cos(angle)%(Math.PI*2)));
+		double newx = -((x-centrex) * (Math.cos(angle)%(Math.PI*2)) + (y-centrey) * (Math.sin(angle)%(Math.PI*2)));
+		double newy = -(-(x-centrex) * (Math.sin(angle)%(Math.PI*2)) + (y-centrey) * (Math.cos(angle)%(Math.PI*2)));
 		PointD pd = new PointD(); 
 		pd.x = newx+centrex;
 		pd.y = newy+centrey;
 		return pd;
 	}
-	
-	
-	
+
+
+
 
 
 	/** This is a small class that enables the user to have a point with x,y fields that are double

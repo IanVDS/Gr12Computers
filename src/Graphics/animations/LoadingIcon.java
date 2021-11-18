@@ -33,17 +33,13 @@ public class LoadingIcon {
 	Ball ball = new Ball(75.0,45.0,5.0,5.0,5.0,SIZE);
 	Line line = new Line(250.0,250.0,250.0,250.0,250.0);
 	Line line2 = new Line(50.0,50.0,100.0,50.0,250.0);
-	private int t_speed = 10;
+	private int t_speed = 20;
 	int t_pause = 1000;
 	int time;
-
-	int line1X1 = 100;
-	int line1Y = 100;
-	int line1X2 = 175;
 	
-	int line2X1 = 250;
-	int line2X2 = 325;
-	int line2Y = 100;
+	Line line3 = new Line(100,175,105);
+	Line line4 = new Line(250,325,105);
+	Line line5 = new Line(350,425,105);
 	double angle=224;
 	
 	
@@ -84,8 +80,8 @@ public class LoadingIcon {
 			time++;
 			
 			
-			ball.bounceWall(ball.vx,ball.x1,ball.x1+ball.sx,0,SIZE);
-			ball.bounceFloor(ball.y1+ball.sy,SIZE);
+			ball.bounceWall(ball.vx,ball.x1,ball.x1+ball.sx);
+			ball.bounceFloor(ball.y1+ball.sy);
 			ball.horizontalCalc();
 			ball.heightCalc();
 			line.rotate4(angle);
@@ -121,10 +117,9 @@ public class LoadingIcon {
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-			g.drawLine(line1X1, line1Y, line1X2, line1Y);
-			g.drawLine(line2X1,line2Y,line2X2,line2Y);
+			line3.paint(g);
+			line4.paint(g);
 			g.drawLine(0, SIZE, SIZE, SIZE);
-			g.drawLine(75, 0, 75, SIZE);
 			ball.paint(g2d);
 			line.paint(g2d);
 			line2.paint(g2d);

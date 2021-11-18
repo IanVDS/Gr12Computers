@@ -2,8 +2,8 @@
 public class FirstProgram {
 
 	public static void main(String[] args) {
-		System.out.println("Hello world");
-		System.out.println("hi");
+//		System.out.println("\U+1F600");
+		System.out.println("\uD83E\uDD28");
 	}
 
 }

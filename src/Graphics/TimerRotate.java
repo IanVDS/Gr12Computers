@@ -2,6 +2,7 @@ package Graphics;
 
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -54,6 +55,9 @@ public class TimerRotate implements KeyListener{
 	//Other objects and variables
 	Line line = new Line(100.0, 100.0, 300.0, 300.0,250.0); 
 	Line line2 = new Line(100.0, 100.0, 300.0, 300.0,250.0); 
+	Line line3 = new Line(100.0, 100.0, 300.0, 300.0,250.0); 
+	Emoji emoji = new Emoji(150.0,250.0,1.0,1.0,SIZE);
+
 	double angle = 0.0;
 
 
@@ -66,7 +70,6 @@ public class TimerRotate implements KeyListener{
 		//all window stuff
 		JFrame window = new JFrame("Timers");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setSize(SIZE,SIZE);
 
 		/***********************************************************
 		 * This is how you get the monitor screen resolution size  *
@@ -79,6 +82,7 @@ public class TimerRotate implements KeyListener{
 
 		window.addKeyListener(this);
 		window.add(mainPanel);
+		window.pack();
 		window.setVisible(true);
 
 		//all timer stuff (start after window is shown)
@@ -99,8 +103,13 @@ public class TimerRotate implements KeyListener{
 		public void actionPerformed(ActionEvent e) {
 			time++;
 			angle += (Math.toRadians(0.005))%(Math.PI*2); 
-			line.rotate2(angle);
-			line2.rotate4(angle);
+//			line.rotate2(angle);
+//			line2.rotate4(angle);
+//			line3.rotate3(angle);
+			emoji.bounceFloor(emoji.y1);
+			emoji.bounceWall(emoji.x1,emoji.x1+30);
+			//TODO
+			emoji.move();
 			mainPanel.repaint();
 		}
 	}
@@ -112,6 +121,7 @@ public class TimerRotate implements KeyListener{
 		DrawingPanel() {
 			//put background colour here
 			this.setBackground(Color.WHITE);
+			this.setPreferredSize(new Dimension(SIZE,SIZE));
 		}
 
 		/***************************/
@@ -124,11 +134,11 @@ public class TimerRotate implements KeyListener{
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-			g.drawLine((int)line.x1,(int)line.y1,(int)line.x2,(int) line.y2);
-			line.paint(g);
-			line2.paint(g);
-			
-			g.drawString("TIME1=" + time*t_speed, 50,50);
+//			g.drawLine((int)line.x1,(int)line.y1,(int)line.x2,(int) line.y2);
+//			line.paint(g);
+//			line2.paint(g);
+			emoji.paint(g2d);
+//			g.drawString("TIME1=" + time*t_speed, 50,50);
 
 			g2d.dispose(); //only dispose of graphics objects that you have created
 		}
