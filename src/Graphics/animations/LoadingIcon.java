@@ -30,6 +30,12 @@ public class LoadingIcon {
 
 	//Timer Stuff
 	Timer timer;
+<<<<<<< HEAD
+	Ball ball = new Ball(75.0,45.0,10.0,10.0,5.0,SIZE);
+	Line line = new Line(250.0,250.0,250.0,250.0,250.0);
+	Line line2 = new Line(50.0,50.0,100.0,50.0,250.0);
+	private int t_speed = 10;
+=======
 	Ball ball = new Ball(75.0,45.0,5.0,5.0,5.0,SIZE);
 	Ball ball2 = new Ball(75.0,45.0,5.0,5.0,5.0,SIZE);
 	Ball ball3= new Ball(75.0,45.0,5.0,5.0,5.0,SIZE);
@@ -39,6 +45,7 @@ public class LoadingIcon {
 	boolean ball2Start = false;
 	boolean ball3Start = false;
 	private int t_speed = 20;
+>>>>>>> master
 	int t_pause = 1000;
 	int time;
 	

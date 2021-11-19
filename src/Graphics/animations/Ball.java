@@ -24,8 +24,17 @@ public class Ball {
 
 
 	}
+	public Ball(double x1,double y1,double vx,double vy, int rS) {
+		this.x1=x1;
+		this.y1=y1;
+		this.vx = vx;
+		this.vy = vx;
+		this.rS = rS;
 
 
+	}
+
+	
 	public void paint(Graphics g) {//draws the ball
 
 		Color color1 = new Color(64*(wallsBounced+1)%256,128*(1+wallsBounced)%256,32*(wallsBounced+1)%256);
@@ -43,7 +52,7 @@ public class Ball {
 		}
 	}
 	public void bounceFloor(double by2) {//hits the floor
-		if(by2 > rS) {
+		if(by2 > rS&&x1>75) {
 			wallsBounced=2;
 			yCurrent = rS;
 		}
@@ -53,7 +62,6 @@ public class Ball {
 		if(x1<=75&&wallsBounced==2) {
 			wallsBounced=3;
 			x1=75;
-
 		}
 	}
 	public void restart(double y1) {//restarts the loop
@@ -66,7 +74,7 @@ public class Ball {
 
 		}
 	}
-
+	
 	public void horizontalCalc() {//calculates which way the ball is moving
 		x1 = x1+vx;
 	}
