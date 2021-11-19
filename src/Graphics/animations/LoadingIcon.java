@@ -31,8 +31,13 @@ public class LoadingIcon {
 	//Timer Stuff
 	Timer timer;
 	Ball ball = new Ball(75.0,45.0,5.0,5.0,5.0,SIZE);
+	Ball ball2 = new Ball(75.0,45.0,5.0,5.0,5.0,SIZE);
+	Ball ball3= new Ball(75.0,45.0,5.0,5.0,5.0,SIZE);
 	Line line = new Line(250.0,250.0,250.0,250.0,250.0);
 	Line line2 = new Line(50.0,50.0,100.0,50.0,250.0);
+	
+	boolean ball2Start = false;
+	boolean ball3Start = false;
 	private int t_speed = 20;
 	int t_pause = 1000;
 	int time;
@@ -80,19 +85,18 @@ public class LoadingIcon {
 			time++;
 			
 			
-			ball.bounceWall(ball.vx,ball.x1,ball.x1+ball.sx);
-			ball.bounceFloor(ball.y1+ball.sy);
-			ball.horizontalCalc();
-			ball.heightCalc();
-			line.rotate4(angle);
-			ball.elevLift(ball.x1);
-			ball.restart(ball.y1);
+			ballCycle(ball);
+			if(ball.wallsBounced==1) ball2Start=true;
+			
 			if(ball.wallsBounced==3) {
 				line2.lift();
+				ball3Start=true;
 			}else if(ball.wallsBounced<3) {
 				line2.lower();
 			}
 			
+			if(ball2Start==true) ballCycle(ball2);
+			if(ball3Start==true) ballCycle(ball3);
 			mainPanel.repaint();
 		}
 	}
@@ -116,18 +120,30 @@ public class LoadingIcon {
 
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
+			
 			line3.paint(g);
 			line4.paint(g);
+			line5.paint(g);
 			g.drawLine(0, SIZE, SIZE, SIZE);
 			ball.paint(g2d);
 			line.paint(g2d);
 			line2.paint(g2d);
+			if(ball2Start) ball2.paint(g);
+			if(ball3Start) ball3.paint(g);
 			
 
 
 //			g2d.dispose(); //only dispose of graphics objects that you have created
 		}
+		
+	}
+	public void ballCycle(Ball b) {
+		b.bounceWall(b.vx,b.x1,b.x1+b.sx);
+		b.bounceFloor(b.y1+b.sy);
+		b.horizontalCalc();
+		b.heightCalc();
+		b.elevLift(b.x1);
+		b.restart(b.y1);
 	}
 
 }
