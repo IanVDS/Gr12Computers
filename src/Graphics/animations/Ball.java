@@ -5,11 +5,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 public class Ball {
 	public double x1,sx,y1,sy,vx,vy,ix,iy;
-	public double yCurrent = 100.0;
-	public int wallsBounced=0,rS;
+	public double yCurrent = 100;
+	public int wallsBounced=0,size;
 
 
-	public Ball(double x1,double y1,double sx,double sy,double vx, int rS) {
+	public Ball(double x1,double y1,double sx,double sy,double vx, int size) {
 		this.x1=x1;
 		this.sy=sy;
 		this.y1=y1;
@@ -17,19 +17,19 @@ public class Ball {
 		this.vx = vx;
 		double vy=0;
 		this.vy = vy;
-		this.rS = rS;
-		ix=x1;
-		iy=y1;
+		this.size = size;//window size
+		ix=x1;//starting point for y
+		iy=y1;//starting point for y
 
 
 
 	}
-	public Ball(double x1,double y1,double vx,double vy, int rS) {
+	public Ball(double x1,double y1,double vx,double vy, int size) {
 		this.x1=x1;
 		this.y1=y1;
 		this.vx = vx;
 		this.vy = vx;
-		this.rS = rS;
+		this.size = size;
 
 
 	}
@@ -44,29 +44,29 @@ public class Ball {
 		g.fillOval((int)x1, (int)y1, (int)(sx), (int)(sy));
 	}
 
-	public void bounceWall(double vx, double bx1, double bx2) {//hits the left wall
-		if(bx1 < 0 || bx2 > rS) {
+	public void bounceWall() {//hits the left wall
+		if(x1 < 0 || x1+sx > size) {
 			this.vx = -vx;
 			wallsBounced=1;
 
 		}
 	}
-	public void bounceFloor(double by2) {//hits the floor
-		if(by2 > rS&&x1>75) {
+	public void bounceFloor() {//hits the floor
+		if(y1+sy > size&&x1>75) {
 			wallsBounced=2;
-			yCurrent = rS;
+			yCurrent = size-5;
 		}
 
 	}
-	public void elevLift(double x1) {//reaches the elevator
+	public void elevLift() {//reaches the elevator
 		if(x1<=75&&wallsBounced==2) {
 			wallsBounced=3;
 			x1=75;
 		}
 	}
-	public void restart(double y1) {//restarts the loop
+	public void restart() {//restarts the loop
 		if(y1<=45&&wallsBounced==3) {
-			yCurrent=100;
+			yCurrent=100.0;
 			x1=ix;
 			y1=iy;
 			wallsBounced=0;
@@ -83,9 +83,9 @@ public class Ball {
 			y1 = yCurrent-Math.abs((200/x1)*30*Math.cos(x1*5));//bounces
 
 		}else if(wallsBounced==1) {
-			y1 = yCurrent+(x1-rS)*(x1-rS)*0.05;//falls
+			y1 = yCurrent+(x1-size)*(x1-size)*0.05;//falls
 		}else if(wallsBounced==2) {
-			y1 = yCurrent-Math.abs((200/(rS-x1))*30*Math.cos(x1*5))-3;//bounces
+			y1 = yCurrent-Math.abs((200/(size-x1))*30*Math.cos(x1*5))-3;//bounces
 		}else if(wallsBounced==3) {
 			y1-=1;//is raised
 			vx=0;

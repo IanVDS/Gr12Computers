@@ -1,5 +1,6 @@
 package Graphics;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 /** 
@@ -11,7 +12,7 @@ public class Line {
 	public double x1, x2, y1, y2,origin;
 
 	public final double cx,cy; //coordinates of the centre of the line
-
+Color color = Color.black;
 	public Line (double x1, double y1, double x2, double y2,double origin){
 		this.x1=x1;
 		this.y1=y1;
@@ -33,23 +34,14 @@ public class Line {
 		cy=y;
 	}
 
-	//hello
-	/**
-	 * Purpose: Paint the line on the graphics context<br> 
-	 * Called from: TimerRotate.DrawingPanel.paintComponent()<br>
-	 * Calls: none<br>
-	 * @param g graphics context passed from subclassed JPanel
-	 */
+
+	//draw the line
 	public void paint(Graphics g) {
+		g.setColor(this.color);
 		g.drawLine((int)x1, (int)y1, (int)x2, (int)y2);
 	}
 
-	/**
-	 * Purpose: rotate the line about its centre<br>
-	 * Called from: ActionListener for Timer in class TimerRotate<br>
-	 * Calls: rotatePoint() for each endpoint<br>
-	 * @param angle%(Math.PI*2) the angle%(Math.PI*2) in radians to rotate the line
-	 */
+	
 	public void rotate(double angle) {
 		PointD tempPoint = rotatePoint(angle, x1,y1,cx,cy);
 		x1 = tempPoint.x;
@@ -86,8 +78,8 @@ public class Line {
 			y2-=1;
 		}
 	}
-	public void lower() {
-		if(y1<=495) {
+	public void lower(int size) {
+		if(y1<=size-5) {
 			y1+=3.75;
 			y2+=3.75;
 		}
