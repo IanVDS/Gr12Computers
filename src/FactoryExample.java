@@ -13,7 +13,7 @@ class FactoryExample{
 		book2.calculateBill(10);
 		Book book3 = bookFactory.getType("eBook");
 		book3.getRate();
-		book3.calculateBill(10);
+		book3.calculateBill(10);//hello
 	}
 }
 abstract class Book {//superclass
