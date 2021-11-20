@@ -7,32 +7,25 @@ public class Ball {
 	public double x1,sx,y1,sy,vx,vy,ix,iy;
 	public double yCurrent = 100;
 	public int wallsBounced=0,size;
+	public boolean runBool=false;
 
 
 	public Ball(double x1,double y1,double sx,double sy,double vx, int size) {
 		this.x1=x1;
-		this.sy=sy;
+		this.sy=sy;//height
 		this.y1=y1;
-		this.sx=sx;
+		this.sx=sx;//width
 		this.vx = vx;
 		double vy=0;
 		this.vy = vy;
 		this.size = size;//window size
-		ix=x1;//starting point for y
-		iy=y1;//starting point for y
+		ix=this.x1;//starting point for y
+		iy=this.y1;//starting point for y
 
 
 
 	}
-	public Ball(double x1,double y1,double vx,double vy, int size) {
-		this.x1=x1;
-		this.y1=y1;
-		this.vx = vx;
-		this.vy = vx;
-		this.size = size;
-
-
-	}
+	
 
 	
 	public void paint(Graphics g) {//draws the ball
@@ -91,6 +84,7 @@ public class Ball {
 			vx=0;
 		}
 	}
+	
 
 
 }

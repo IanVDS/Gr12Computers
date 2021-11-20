@@ -14,7 +14,7 @@ import java.awt.event.KeyListener;
 import javax.swing.*;
 
 /**
- * This program demonstrates how to rotate a line ...
+ * This program demonstrates how to rotate a Line2 ...
  * timers ...
  * @author tv30254
  * @date May 20, 2018
@@ -53,9 +53,9 @@ public class TimerRotate implements KeyListener{
 	int time;       //just to display elapsed time. This should be compared with System.currentTimeMillis()
 
 	//Other objects and variables
-	Line line = new Line(100.0, 100.0, 300.0, 300.0,250.0); 
-	Line line2 = new Line(100.0, 100.0, 300.0, 300.0,250.0); 
-	Line line3 = new Line(100.0, 100.0, 300.0, 300.0,250.0); 
+	Line2 Line2 = new Line2(100.0, 100.0, 300.0, 300.0,250.0); 
+	Line2 Line22 = new Line2(100.0, 100.0, 300.0, 300.0,250.0); 
+	Line2 Line23 = new Line2(100.0, 100.0, 300.0, 300.0,250.0); 
 	Emoji emoji = new Emoji(150.0,250.0,1.0,1.0,SIZE);
 
 	double angle = 0.0;
@@ -103,9 +103,9 @@ public class TimerRotate implements KeyListener{
 		public void actionPerformed(ActionEvent e) {
 			time++;
 			angle += (Math.toRadians(0.005))%(Math.PI*2); 
-//			line.rotate2(angle);
-//			line2.rotate4(angle);
-//			line3.rotate3(angle);
+//			Line2.rotate2(angle);
+//			Line22.rotate4(angle);
+//			Line23.rotate3(angle);
 			emoji.bounceFloor(emoji.y1);
 			emoji.bounceWall(emoji.x1,emoji.x1+30);
 			//TODO
@@ -134,9 +134,9 @@ public class TimerRotate implements KeyListener{
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-//			g.drawLine((int)line.x1,(int)line.y1,(int)line.x2,(int) line.y2);
-//			line.paint(g);
-//			line2.paint(g);
+//			g.drawLine2((int)Line2.x1,(int)Line2.y1,(int)Line2.x2,(int) Line2.y2);
+//			Line2.paint(g);
+//			Line22.paint(g);
 			emoji.paint(g2d);
 //			g.drawString("TIME1=" + time*t_speed, 50,50);
 
