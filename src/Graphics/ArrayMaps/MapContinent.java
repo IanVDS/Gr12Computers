@@ -15,7 +15,7 @@ public class MapContinent
 
 	//constants	
 	final static int GRID = 32; //size of grid/board
-	final static int SQSIZE = 23; // size of each square in pixels
+	final static int SQSIZE = 15; // size of each square in pixels
 	final static int NUM_LAND = (GRID * GRID /2); //number of land tiles
 
 	//terrain
@@ -29,6 +29,7 @@ public class MapContinent
 	final static Color COLOURLAND = new Color(100,200,100);
 	final static Color COLOURLAKE = new Color(100,100,255);
 	final static Color COLOUROCEAN = new Color(10,10,130);
+	int color = LAKE;
 
 	//global variables
 	int[][] board = new int[GRID][GRID];
@@ -38,7 +39,7 @@ public class MapContinent
 		createAndShowGUI();
 	}
 
-	//PROBLEM 4: When half of the squares are land, the land is scattered quite a lot into little islands.
+	//PROBLEM 4: TODO When half of the squares are land, the land is scattered quite a lot into little islands.
 	//           Find a way to make a random map that has the land in bigger chunks.
 	void initGame() {		
 		//clear board
@@ -59,33 +60,165 @@ public class MapContinent
 				int landTiles=0;
 
 				board[i][j]=(int)(Math.random()*100)%2;
-				
+
 				if(board[i][j]==1) {
 					landTiles++;
 
 				}
 
 				if(landTiles==NUM_LAND) break;
-				
+
 				//PROBLEM 1: Make an equal number of land and water squares, but make sure that the land is randomly distributed.
 			}
-			
+
 		}
 	}
 
 
-	//PROBLEM 2: Fix the function "findLakes()" so that it colours all empty squares that are adjacent to this one.
-	//PROBLEM 3: Once you have solved problem 2, now set things up so that if any part 
+	//PROBLEM 2: TODO Fix the function "findLakes()" so that it colours all empty squares that are adjacent to this one.
+	//PROBLEM 3:  TODO Once you have solved problem 2, now set things up so that if any part 
 	//           of a lake touches the edge of the board it becomes an ocean.	
 	void findLakes(int x, int y) {
 		//call subroutine to colour in all contiguous lake squares
 
-		if (board[x][y] == EMPTY) board[x][y] = LAKE;
+		color=LAKE;
+		if(x>=0&&y>=0&&x<GRID&&y<GRID) {//for lakes in the middle of the map
+
+			if (board[x][y] == EMPTY) board[x][y] = color;
+			if(y+1<GRID-1) {
+				if(board[x][y+1]==EMPTY) {
+					board[x][y+1] = color;
+					findLakes(x,y+1);
+				}
+			}else if(y+1<GRID) findOceans(x,y+1);
+			if(y-1>0) {
+				if(board[x][y-1]==EMPTY) {
+					board[x][y-1]=color;
+					findLakes(x,y-1);
+				}
+			}else if(y-1>=0) findOceans(x,y-1);
+			if(x+1<GRID-1) {
+				if(board[x+1][y]==EMPTY) {
+					board[x+1][y]=color;
+					findLakes(x+1,y);
+				}
+			}else if(x+1<GRID) findOceans(x+1,y);
+			if(x-1>0) {
+				if(board[x-1][y]==EMPTY) {
+					board[x-1][y]=color;
+					findLakes(x-1,y);
+
+				}
+			}else if(x-1>=0) findOceans(x-1,y);
+
+		}
+		if(x==0||y==0||x==GRID-1||y==GRID-1) {
+			findOceans(x,y);
+		}
 		/*
 
 		if (... square is on the edge of the board) findOceans(x,y);  
 
 		 */
+
+	}
+	void findOceans(int x, int y) {
+		color=OCEAN;
+		if(board[x][y]==EMPTY||board[x][y]==LAKE)board[x][y]=color;
+		if(x==0) {//checks for oceans on the left side
+			if(y-1>0) {
+				if(board[x][y-1]==LAKE||board[x][y-1]==EMPTY) {
+					findOceans(x,y-1);
+					board[x][y-1]=color;
+				}
+				if (board[x+1][y]==LAKE||board[x+1][y]==EMPTY) fillOceans(x+1,y);
+			}
+			if(y+1<GRID-1) {
+				if(board[x][y+1]==LAKE||board[x][y+1]==EMPTY) {
+					findOceans(x,y+1);
+					board[x][y+1]=color;
+				}
+				if(board[x+1][y]==LAKE||board[x+1][y]==EMPTY)fillOceans(x+1,y);
+			}
+		}if(x==GRID-1) {//checks for oceans on the right side
+			if(y-1>0) {
+				if(board[x][y-1]==LAKE||board[x][y-1]==EMPTY) {
+					findOceans(x,y-1);
+					board[x][y-1]=color;
+				}
+				if(board[x-1][y]==LAKE||board[x-1][y]==EMPTY) fillOceans(x-1,y);
+			}
+			if(y+1<GRID-1) {
+				if(board[x][y+1]==LAKE||board[x][y+1]==EMPTY) {
+					findOceans(x,y+1);
+					board[x][y+1]=color;
+				}
+				if(board[x-1][y]==LAKE||board[x-1][y]==EMPTY)fillOceans(x-1,y);
+			}
+		}
+		if(y==0) {//checks for oceans on the top
+			if(x-1>0) {
+				if(board[x-1][y]==LAKE||board[x-1][y]==EMPTY) {
+					findOceans(x-1,y);
+					board[x-1][y]=color;
+				}
+				if(board[x][y+1]==LAKE||board[x][y+1]==EMPTY)fillOceans(x,y+1);
+			}
+			if(x+1<GRID-1) {
+				if(board[x+1][y]==LAKE||board[x+1][y]==EMPTY) {
+					findOceans(x+1,y);
+					board[x+1][y]=color;
+				}
+				if(board[x][y+1]==LAKE||board[x][y+1]==EMPTY)fillOceans(x,y+1);
+			}
+		}if(y==GRID-1) {//checks for oceans on the bottom
+			if(x-1>0) {
+				if(board[x-1][y]==LAKE||board[x-1][y]==EMPTY) {
+					findOceans(x-1,y);
+					board[x-1][y]=color;
+				}
+				if(board[x][y-1]==LAKE||board[x][y-1]==EMPTY)fillOceans(x,y-1);
+			}
+			if(x+1<GRID-1) {
+				if(board[x+1][y]==LAKE||board[x+1][y]==EMPTY) {
+					findOceans(x+1,y);
+				}
+				if(board[x][y-1]==LAKE||board[x][y-1]==EMPTY)fillOceans(x,y-1);
+			}
+		}
+
+
+	}
+
+	void fillOceans(int x,int y) {//similar code to findLake() but colors everything to OCEAN
+		if(x>0&&y>0&&x<GRID-1&&y<GRID-1) {
+
+			if (board[x][y] == LAKE||board[x][y]==EMPTY) board[x][y] = color;
+			if(y+1<GRID-1) {
+				if(board[x][y+1]==LAKE||board[x][y]==EMPTY)	{
+					fillOceans(x,y+1);
+					board[x][y+1]=color;
+				}
+			}
+			if(y-1>0) {
+				if(board[x][y-1]==LAKE||board[x][y-1]==EMPTY) {
+					fillOceans(x,y-1);
+					board[x][y-1]=color;
+				}
+			}
+			if(x+1<GRID-1) {
+				if(board[x+1][y]==LAKE||board[x+1][y]==EMPTY) {
+					fillOceans(x+1,y);
+					board[x+1][y]=color;
+				}
+			}
+			if(x-1>0) {
+				if(board[x-1][y]==LAKE||board[x-1][y]==EMPTY) {
+					fillOceans(x-1,y);
+					board[x-1][y]=color;
+				}
+			}
+		}if(x==0||y==0||x==GRID-1||y==GRID-1) findOceans(x,y);
 	}
 
 
@@ -93,7 +226,7 @@ public class MapContinent
 		DrawingPanel panel = new DrawingPanel();
 
 		//JFrame.setDefaultLookAndFeelDecorated(true);
-		JFrame frame = new JFrame("Minesweeper Problem #1-4");
+		JFrame frame = new JFrame("Map Continent");
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		Container content = frame.getContentPane();
 		// content.setLayout(new BorderLayout(2,2));	
@@ -175,9 +308,11 @@ public class MapContinent
 			public void mouseClicked(MouseEvent e) {
 				int x = e.getX();
 				int y = e.getY();
+				color=LAKE;
 				//calculate which square you clicked on
 				int i = (int)  x/blockX;
 				int j = (int) y/blockY;	// blockY/y
+				System.out.println(i+", "+j);
 
 				//allow the right mouse button to toggle/cycle the terrain
 				if (e.getButton() != MouseEvent.BUTTON1) {
