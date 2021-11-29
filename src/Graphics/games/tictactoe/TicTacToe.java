@@ -296,11 +296,12 @@ public class TicTacToe {
 					xWin=false;
 					oWin=false;
 					tie=false;
-					spaceCounter=0;
+					spaceCounter=GRID*GRID;
 					turn=1;
 				}
 				gridPanel.remove(restart);
 				gridPanel.remove(exit);
+				gridPanel.repaint();
 			}	
 		}
 		class Action2 implements ActionListener{//pause and resume
