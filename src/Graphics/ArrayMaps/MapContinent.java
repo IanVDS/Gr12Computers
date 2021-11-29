@@ -32,7 +32,8 @@ public class MapContinent
 
 	//global variables
 	int[][] board = new int[GRID][GRID];
-
+	int landTiles = 0;
+	final int contNum = (int)(Math.random()*4)+1;
 	MapContinent() {	//constructor
 		initGame();
 		createAndShowGUI();
@@ -48,17 +49,49 @@ public class MapContinent
 			}
 		}
 
-		makeRandomMap();
-		// makeContinents();	//this doesn't exist yet. It is for Problem#4.
+		//		makeRandomMap();
+		makeContinents();	//this doesn't exist yet. It is for Problem#4.
 	}
 
 
+	void makeContinents() {
+
+//		for(int i=0;i<contNum;i++) {
+			int originX = (int)(Math.random()*GRID);
+			int originY = (int)(Math.random()*GRID);
+			contGrow(originX,originY);
+			contGrow2(originX,originY);
+			board[originX][originY]=LAKE;
+			
+//		}
+	}
+	void contGrow(int x, int y) {
+//		if(&&landTiles<NUM_LAND/contNum) {
+			if(Math.random()>0.25) {
+				board[x][y]=LAND;
+				landTiles++;
+			}else board[x][y]=OCEAN;
+
+			if(x+1<GRID-1)contGrow(x+1,y);
+
+			if(y-1>0)contGrow(x,y-1);
+		
+	}
+	
+	void contGrow2(int x, int y){
+		if(Math.random()>0.25) {
+			board[x][y]=LAND;
+			landTiles++;
+		}else board[x][y]=OCEAN;
+		if(x-1>0)contGrow2(x-1,y);contGrow(x-1,y);
+
+		if(y+1<GRID-1)contGrow2(x,y+1);contGrow(x,(y+1))
+	}
 	void makeRandomMap() {
 		for(int i=0;i<GRID;i++) {
 			for(int j=0;j<GRID;j++) {
-				int landTiles=0;
 
-				board[i][j]=(int)(Math.random()*100)%2;
+				board[i][j]=(int)(Math.random()*2)%2;
 
 				if(board[i][j]==1) {
 					landTiles++;
@@ -87,147 +120,58 @@ public class MapContinent
 			if (board[x][y] == EMPTY) board[x][y] = LAKE;
 			if(y+1<=GRID-1) {
 				if(board[x][y+1]==EMPTY) {
-					//					board[x][y+1] = LAKE;
 					findLakes(x,y+1);
 				}
-			}//else if(y+1<GRID) findOceans(x,y+1);
+			}
 			if(y-1>=0) {
 				if(board[x][y-1]==EMPTY) {
 					board[x][y-1]=LAKE;
 					findLakes(x,y-1);
 				}
-			}//else if(y-1>=0) findOceans(x,y-1);
+			}
 			if(x+1<=GRID-1) {
 				if(board[x+1][y]==EMPTY) {
-					//					board[x+1][y]=LAKE;
 					findLakes(x+1,y);
 				}
-			}//else if(x+1<GRID) findOceans(x+1,y);
+			}
 			if(x-1>=0) {
 				if(board[x-1][y]==EMPTY) {
-					//					board[x-1][y]=LAKE;
 					findLakes(x-1,y);
 
 				}
-			}//else if(x-1>=0) findOceans(x-1,y);
-
+			}
 		}
-
-		/*
-
-		if (... square is on the edge of the board) findOceans(x,y);  
-
-		 */
-
 	}
 	void findOceans(int x, int y) {
-		if(board[x][y]==EMPTY||board[x][y]==LAKE)board[x][y]=OCEAN;
-		if(x==0||x==GRID-1) {//checks for oceans on the left side
-			if(y-1>0) {
-				if(board[x][y-1]==LAKE||board[x][y-1]==EMPTY) {
-					findOceans(x,y-1);
-					board[x][y-1]=OCEAN;
-				}
-				if(x+1<GRID) {
-					if (board[x+1][y]==LAKE||board[x+1][y]==EMPTY) fillOceans(x+1,y);
-				}else if(x-1>=0) {
-					if(board[x-1][y]==LAKE||board[x+1][y]==EMPTY)fillOceans(x-1,y);
-				}
-			}
-			if(y+1<GRID-1) {
-				if(board[x][y+1]==LAKE||board[x][y+1]==EMPTY) {
-					findOceans(x,y+1);
-					board[x][y+1]=OCEAN;
-				}
-				if(x+1<GRID) {
-					if (board[x+1][y]==LAKE||board[x+1][y]==EMPTY) fillOceans(x+1,y);
-				}else if(x-1>=0) {
-					if(board[x-1][y]==LAKE||board[x+1][y]==EMPTY)fillOceans(x-1,y);
-				}
+		if(board[x][y]==LAKE) {
+			board[x][y]=OCEAN;
+		}
+		if(x+1<GRID) {
+			if(board[x+1][y]==LAKE||board[x+1][y]==EMPTY) {
+				board[x+1][y]=OCEAN;
+				findOceans(x+1,y);
 			}
 		}
-//		if(x==GRID-1) {//checks for oceans on the right side
-//			if(y-1>0) {
-//				if(board[x][y-1]==LAKE||board[x][y-1]==EMPTY) {
-//					findOceans(x,y-1);
-//					board[x][y-1]=OCEAN;
-//				}
-//				if(board[x-1][y]==LAKE||board[x-1][y]==EMPTY) fillOceans(x-1,y);
-//			}
-//			if(y+1<GRID-1) {
-//				if(board[x][y+1]==LAKE||board[x][y+1]==EMPTY) {
-//					findOceans(x,y+1);
-//					board[x][y+1]=OCEAN;
-//				}
-//				if(board[x-1][y]==LAKE||board[x-1][y]==EMPTY)fillOceans(x-1,y);
-//			}
-//		}
-		if(y==0) {//checks for oceans on the top
-			if(x-1>0) {
-				if(board[x-1][y]==LAKE||board[x-1][y]==EMPTY) {
-					findOceans(x-1,y);
-					//					board[x-1][y]=OCEAN;
-				}
-				if(board[x][y+1]==LAKE||board[x][y+1]==EMPTY)fillOceans(x,y+1);
-			}
-			if(x+1<GRID-1) {
-				if(board[x+1][y]==LAKE||board[x+1][y]==EMPTY) {
-					findOceans(x+1,y);
-					//					board[x+1][y]=OCEAN;
-				}
-				if(board[x][y+1]==LAKE||board[x][y+1]==EMPTY)fillOceans(x,y+1);
-			}
-		}if(y==GRID-1) {//checks for oceans on the bottom
-			if(x-1>0) {
-				if(board[x-1][y]==LAKE||board[x-1][y]==EMPTY) {
-					findOceans(x-1,y);
-					//					board[x-1][y]=OCEAN;
-				}
-				if(board[x][y-1]==LAKE||board[x][y-1]==EMPTY)fillOceans(x,y-1);
-			}
-			if(x+1<GRID-1) {
-				if(board[x+1][y]==LAKE||board[x+1][y]==EMPTY) {
-					findOceans(x+1,y);
-					board[x+1][y]=OCEAN;
-				}
-				if(board[x][y-1]==LAKE||board[x][y-1]==EMPTY)fillOceans(x,y-1);
+		if(x-1>=0) {
+			if(board[x-1][y]==LAKE||board[x-1][y]==EMPTY) {
+				board[x-1][y]=OCEAN;
+				findOceans(x-1,y);
 			}
 		}
-
-
+		if(y+1<GRID) {
+			if(board[x][y+1]==LAKE||board[x][y+1]==EMPTY) {
+				board[x][y+1]=OCEAN;
+				findOceans(x,y+1);
+			}
+		}
+		if(y-1>=0) {
+			if(board[x][y-1]==LAKE||board[x][y-1]==EMPTY) {
+				board[x][y-1]=OCEAN;
+				findOceans(x,y-1);
+			}
+		}
 	}
 
-	void fillOceans(int x,int y) {//similar code to findLake() but OCEANs everything to OCEAN
-		if(x>=0&&y>=0&&x<=GRID-1&&y<=GRID-1) {
-
-			if (board[x][y] == LAKE||board[x][y]==EMPTY) board[x][y] = OCEAN;
-			if(y+1<=GRID-1) {
-				if(board[x][y+1]==LAKE||board[x][y]==EMPTY)	{
-					fillOceans(x,y+1);
-					board[x][y+1]=OCEAN;
-				}
-			}
-			if(y-1>=0) {
-				if(board[x][y-1]==LAKE||board[x][y-1]==EMPTY) {
-					fillOceans(x,y-1);
-					board[x][y-1]=OCEAN;
-				}
-			}
-			if(x+1<=GRID-1) {
-				if(board[x+1][y]==LAKE||board[x+1][y]==EMPTY) {
-					fillOceans(x+1,y);
-					board[x+1][y]=OCEAN;
-				}
-			}
-			if(x-1>=0) {
-				if(board[x-1][y]==LAKE||board[x-1][y]==EMPTY) {
-					fillOceans(x-1,y);
-					board[x-1][y]=OCEAN;
-				}
-			}
-		}if(x==0||x==GRID-1) findOceans(x,y);
-		if(y==GRID-1||y==0) findOceans(x,y);
-	}
 
 
 	void createAndShowGUI() {
