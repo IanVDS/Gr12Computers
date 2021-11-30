@@ -185,8 +185,6 @@ public class TicTacToe {
 			}
 			//Check every square in board[][] and draw an X or O there.
 			//Try and resize the window while playing. Everything works. 
-			g.setColor(Color.RED);
-			g2.setStroke(new BasicStroke(2));
 
 
 

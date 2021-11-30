@@ -17,7 +17,7 @@ public class MapContinent
 	final static int GRID = 32; //size of grid/board
 	final static int SQSIZE = 15; // size of each square in pixels
 	final static int NUM_LAND = (GRID * GRID /2); //number of land tiles
-
+	JFrame frame = new JFrame("Map Continent");
 	//terrain
 	final static int EMPTY = 0;		//constant for empty tile. This is the terrain that needs to be a specific value (since arrays are initialized to zero)
 	final static int LAND = 1;		//contant for land tile
@@ -49,43 +49,58 @@ public class MapContinent
 			}
 		}
 
-		//		makeRandomMap();
+		//				makeRandomMap();
 		makeContinents();	//this doesn't exist yet. It is for Problem#4.
 	}
 
 
 	void makeContinents() {
+				for(int i=0;i<5;i++) {
+					double x=Math.random()*GRID;
+					double y=Math.random()*GRID;
+					board[(int)x][(int)y]=LAND;
+				}
+		contGrow();
 
-//		for(int i=0;i<contNum;i++) {
-			int originX = (int)(Math.random()*GRID);
-			int originY = (int)(Math.random()*GRID);
-			contGrow(originX,originY);
-			contGrow2(originX,originY);
-			board[originX][originY]=LAKE;
-			
-//		}
+
+		//		}
 	}
-	void contGrow(int x, int y) {
-//		if(&&landTiles<NUM_LAND/contNum) {
-			if(Math.random()>0.25) {
-				board[x][y]=LAND;
-				landTiles++;
-			}else board[x][y]=OCEAN;
+	void contGrow() {
+		while(landTiles<=NUM_LAND) {
+			for(int i=0;i<GRID;i++) {
+				for(int j=0;j<GRID;j++) {
 
-			if(x+1<GRID-1)contGrow(x+1,y);
+					double chance = Math.random();
+					if(board[i][j]==EMPTY) {
+						if(landAdj(i,j)==0&&chance<0.02) board[i][j]=LAND;
+						if(landAdj(i,j)==1&&chance<0.6) board[i][j]=LAND;
+						else if(landAdj(i,j)==2&&chance<0.9) board[i][j]=LAND;
+					}
+					if(board[i][j]==1) {
+						landTiles++;
 
-			if(y-1>0)contGrow(x,y-1);
-		
+					}
+					if(landTiles>=NUM_LAND) break;
+					frame.setTitle(""+landTiles);
+
+				}
+
+			}
+		}
+
+
 	}
-	
-	void contGrow2(int x, int y){
-		if(Math.random()>0.25) {
-			board[x][y]=LAND;
-			landTiles++;
-		}else board[x][y]=OCEAN;
-		if(x-1>0)contGrow2(x-1,y);contGrow(x-1,y);
+	int landAdj(int x, int y) {
+		int landCount = 0;
+		if(x>0&&y>0&&x<GRID-1&&y<GRID-1) {
+			if(board[x+1][y]==LAND)landCount++;
+			if(board[x-1][y]==LAND)landCount++;
+			if(board[x][y+1]==LAND)landCount++;
+			if(board[x][y-1]==LAND)landCount++;
 
-		if(y+1<GRID-1)contGrow2(x,y+1);contGrow(x,(y+1))
+		}
+		return landCount;
+
 	}
 	void makeRandomMap() {
 		for(int i=0;i<GRID;i++) {
@@ -95,7 +110,6 @@ public class MapContinent
 
 				if(board[i][j]==1) {
 					landTiles++;
-
 				}
 
 				if(landTiles==NUM_LAND) break;
@@ -116,7 +130,6 @@ public class MapContinent
 			findOceans(x,y);
 		}
 		if(x>=0&&y>=0&&x<GRID&&y<GRID) {//for lakes in the middle of the map
-
 			if (board[x][y] == EMPTY) board[x][y] = LAKE;
 			if(y+1<=GRID-1) {
 				if(board[x][y+1]==EMPTY) {
@@ -178,13 +191,13 @@ public class MapContinent
 		DrawingPanel panel = new DrawingPanel();
 
 		//JFrame.setDefaultLookAndFeelDecorated(true);
-		JFrame frame = new JFrame("Map Continent");
+
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		Container content = frame.getContentPane();
 		// content.setLayout(new BorderLayout(2,2));	
 		content.add(panel, BorderLayout.CENTER);		
 		//frame.setSize(SCRSIZE, SCRSIZE); //may not be needed since my JPanel has a preferred size
-		frame.setResizable(false);		
+		frame.setResizable(false);//TODO		
 		frame.pack();
 		frame.setLocationRelativeTo( null );
 		frame.setVisible(true);
