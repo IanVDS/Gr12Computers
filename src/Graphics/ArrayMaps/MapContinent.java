@@ -14,7 +14,7 @@ public class MapContinent
 	}
 
 	//constants	
-	final static int GRID = 32; //size of grid/board
+	final static int GRID = 64; //size of grid/board
 	final static int SQSIZE = 15; // size of each square in pixels
 	final static int NUM_LAND = (GRID * GRID /2); //number of land tiles
 	JFrame frame = new JFrame("Map Continent");
@@ -32,15 +32,15 @@ public class MapContinent
 
 	//global variables
 	int[][] board = new int[GRID][GRID];
-	int landTiles = 0;
+
+
 	final int contNum = (int)(Math.random()*4)+1;
+	int landTiles = 0;
 	MapContinent() {	//constructor
 		initGame();
 		createAndShowGUI();
 	}
 
-	//PROBLEM 4: TODO When half of the squares are land, the land is scattered quite a lot into little islands.
-	//           Find a way to make a random map that has the land in bigger chunks.
 	void initGame() {		
 		//clear board
 		for (int i=0;i<GRID;i++) {
@@ -50,58 +50,68 @@ public class MapContinent
 		}
 
 		//				makeRandomMap();
-		makeContinents();	//this doesn't exist yet. It is for Problem#4.
+		makeContinents();
 	}
 
 
 	void makeContinents() {
-				for(int i=0;i<5;i++) {
-					double x=Math.random()*GRID;
-					double y=Math.random()*GRID;
-					board[(int)x][(int)y]=LAND;
-				}
+		for(int i=0;i<contNum;i++) {
+			double x=Math.random()*GRID;
+			double y=Math.random()*GRID;
+			board[(int)x][(int)y]=LAND;
+			landTiles++;
+		}
 		contGrow();
-
-
-		//		}
 	}
+	
 	void contGrow() {
 		while(landTiles<=NUM_LAND) {
 			for(int i=0;i<GRID;i++) {
 				for(int j=0;j<GRID;j++) {
 
-					double chance = Math.random();
-					if(board[i][j]==EMPTY) {
-						if(landAdj(i,j)==0&&chance<0.02) board[i][j]=LAND;
-						if(landAdj(i,j)==1&&chance<0.6) board[i][j]=LAND;
-						else if(landAdj(i,j)==2&&chance<0.9) board[i][j]=LAND;
-					}
-					if(board[i][j]==1) {
-						landTiles++;
+					double chanceLand = Math.random();
+					if(board[i][j]==EMPTY&&landTiles<=NUM_LAND) {
+						if(landAdj(i,j)==0&&chanceLand<0.001) {
+							board[i][j]=LAND;
+							landTiles++;
+						}
+						if(landAdj(i,j)==1&&chanceLand<0.6) {
+							board[i][j]=LAND;
+							landTiles++;
+						}
+						if(landAdj(i,j)==2&&chanceLand<0.6) {
+							board[i][j]=LAND;
+							landTiles++;
+						}
+						if(landAdj(i,j)==3&&chanceLand<0.8) {
+							board[i][j]=LAND;
+							landTiles++;
+						}
+						if(landAdj(i,j)==4&&chanceLand<0.9) {
+							board[i][j]=LAND;
+							landTiles++;
+						}
+						
+						if(landTiles>=NUM_LAND) break;
 
 					}
-					if(landTiles>=NUM_LAND) break;
-					frame.setTitle(""+landTiles);
-
+					if(landTiles>=NUM_LAND) break;		
 				}
-
 			}
 		}
-
-
 	}
-	int landAdj(int x, int y) {
+	
+	int landAdj(int x, int y) {//counts adjacent land tiles
 		int landCount = 0;
 		if(x>0&&y>0&&x<GRID-1&&y<GRID-1) {
 			if(board[x+1][y]==LAND)landCount++;
 			if(board[x-1][y]==LAND)landCount++;
 			if(board[x][y+1]==LAND)landCount++;
 			if(board[x][y-1]==LAND)landCount++;
-
 		}
 		return landCount;
-
 	}
+
 	void makeRandomMap() {
 		for(int i=0;i<GRID;i++) {
 			for(int j=0;j<GRID;j++) {
@@ -113,19 +123,12 @@ public class MapContinent
 				}
 
 				if(landTiles==NUM_LAND) break;
-
-				//PROBLEM 1: Make an equal number of land and water squares, but make sure that the land is randomly distributed.
 			}
 
 		}
 	}
 
-
-	//PROBLEM 2: TODO Fix the function "findLakes()" so that it colours all empty squares that are adjacent to this one.
-	//PROBLEM 3:  TODO Once you have solved problem 2, now set things up so that if any part 
-	//           of a lake touches the edge of the board it becomes an ocean.	
 	void findLakes(int x, int y) {
-		//call subroutine to colour in all contiguous lake squares
 		if(x==0||y==0||x==GRID-1||y==GRID-1) {
 			findOceans(x,y);
 		}
@@ -155,7 +158,7 @@ public class MapContinent
 			}
 		}
 	}
-	void findOceans(int x, int y) {
+	void findOceans(int x, int y) {//checks for oceans and changes lakes to oceans
 		if(board[x][y]==LAKE) {
 			board[x][y]=OCEAN;
 		}
@@ -190,19 +193,14 @@ public class MapContinent
 	void createAndShowGUI() {
 		DrawingPanel panel = new DrawingPanel();
 
-		//JFrame.setDefaultLookAndFeelDecorated(true);
-
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		Container content = frame.getContentPane();
-		// content.setLayout(new BorderLayout(2,2));	
+		Container content = frame.getContentPane();	
 		content.add(panel, BorderLayout.CENTER);		
-		//frame.setSize(SCRSIZE, SCRSIZE); //may not be needed since my JPanel has a preferred size
-		frame.setResizable(false);//TODO		
+		frame.setResizable(true);		
 		frame.pack();
 		frame.setLocationRelativeTo( null );
 		frame.setVisible(true);
 
-		//once the panel is visible, initialize the graphics. (Is this before paintComponent is run?)
 		panel.initGraphics();
 
 	}
@@ -214,20 +212,16 @@ public class MapContinent
 
 		public DrawingPanel() {
 			setBackground(COLOURBACK);
-			//Because the panel size variables don't get initialized until the panel is displayed,
-			//we can't do a lot of graphics initialization here in the constructor.
 			this.setPreferredSize(new Dimension(GRID*SQSIZE,GRID*SQSIZE));
 			MyMouseListener ml = new MyMouseListener();
 			addMouseListener(ml);			
 		}
 
-		//** Called by createGUI()
 		void initGraphics() {
 			jpanW = this.getSize().width;		
 			jpanH = this.getSize().height;	
 			blockX = (int)((jpanW/GRID)+0.5);
 			blockY = (int)((jpanH/GRID)+0.5);
-			// System.out.println("init");
 		}
 
 		public void paintComponent(Graphics g) {
@@ -276,7 +270,6 @@ public class MapContinent
 				//calculate which square you clicked on
 				int i = (int)  x/blockX;
 				int j = (int) y/blockY;	// blockY/y
-				System.out.println(i+", "+j);
 
 				//allow the right mouse button to toggle/cycle the terrain
 				if (e.getButton() != MouseEvent.BUTTON1) {
@@ -291,7 +284,7 @@ public class MapContinent
 					return;
 				}
 
-				findLakes(i,j);								
+				if(board[i][j]==EMPTY)findLakes(i,j);								
 				repaint();
 			}		
 		} //end of MyMouseListener class
