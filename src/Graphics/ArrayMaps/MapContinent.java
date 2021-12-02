@@ -17,7 +17,6 @@ public class MapContinent
 	final static int GRID = 64; //size of grid/board
 	final static int SQSIZE = 15; // size of each square in pixels
 	final static int NUM_LAND = (GRID * GRID /2); //number of land tiles
-	JFrame frame = new JFrame("Map Continent");
 	//terrain
 	final static int EMPTY = 0;		//constant for empty tile. This is the terrain that needs to be a specific value (since arrays are initialized to zero)
 	final static int LAND = 1;		//contant for land tile
@@ -124,7 +123,6 @@ public class MapContinent
 
 				if(landTiles==NUM_LAND) break;
 			}
-
 		}
 	}
 
@@ -191,8 +189,8 @@ public class MapContinent
 
 
 	void createAndShowGUI() {
+		JFrame frame = new JFrame("Map Continent");
 		DrawingPanel panel = new DrawingPanel();
-
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		Container content = frame.getContentPane();	
 		content.add(panel, BorderLayout.CENTER);		
