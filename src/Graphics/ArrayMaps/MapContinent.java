@@ -74,15 +74,15 @@ public class MapContinent
 							board[i][j]=LAND;
 							landTiles++;
 						}
-						if(landAdj(i,j)==1&&chanceLand<0.6) {
+						if(landAdj(i,j)==1&&chanceLand<0.3) {
 							board[i][j]=LAND;
 							landTiles++;
 						}
-						if(landAdj(i,j)==2&&chanceLand<0.6) {
+						if(landAdj(i,j)==2&&chanceLand<0.4) {
 							board[i][j]=LAND;
 							landTiles++;
 						}
-						if(landAdj(i,j)==3&&chanceLand<0.8) {
+						if(landAdj(i,j)==3&&chanceLand<0.5) {
 							board[i][j]=LAND;
 							landTiles++;
 						}
@@ -145,7 +145,6 @@ public class MapContinent
 			}
 			if(y-1>=0) {
 				if(board[x][y-1]==EMPTY) {
-					board[x][y-1]=LAKE;
 					findLakes(x,y-1);
 				}
 			}
@@ -162,6 +161,7 @@ public class MapContinent
 			}
 		}
 	}
+	
 	void findOceans(int x, int y) {//checks for oceans and changes lakes to oceans
 		if(board[x][y]==LAKE) {
 			board[x][y]=OCEAN;
@@ -265,7 +265,7 @@ public class MapContinent
 				g.setColor(COLOUROCEAN);
 				g.fillRect(blockX*i+1, blockY*j+1, blockX-2, blockY-2);
 			}			
-		}		
+		}
 
 		class MyMouseListener extends MouseAdapter	{	//inner class inside DrawingPanel
 			public void mouseClicked(MouseEvent e) {
@@ -296,7 +296,9 @@ public class MapContinent
 				repaint();
 			}
 		} //end of MyMouseListener class
-		class MyKeyListener extends KeyAdapter{
+		
+		
+		class MyKeyListener implements KeyListener{
 			public void keyPressed(KeyEvent e) {	
 					if(e.getKeyCode()==KeyEvent.VK_SPACE) {
 						contNum = (int)(Math.random()*4)+1;
@@ -307,6 +309,10 @@ public class MapContinent
 						return;
 					}
 				}
+
+			public void keyTyped(KeyEvent e) {}
+
+			public void keyReleased(KeyEvent e) {}
 			}
 	} //end of DrawingPanel class
 
