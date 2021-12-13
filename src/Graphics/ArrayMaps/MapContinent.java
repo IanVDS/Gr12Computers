@@ -33,7 +33,7 @@ public class MapContinent
 	int[][] board = new int[GRID][GRID];
 
 
-	final int contNum = (int)(Math.random()*4)+1;
+	int contNum = (int)(Math.random()*4)+1;
 	int landTiles = 0;
 	MapContinent() {	//constructor
 		initGame();
@@ -48,7 +48,7 @@ public class MapContinent
 			}
 		}
 
-		//				makeRandomMap();
+//						makeRandomMap();
 		makeContinents();
 	}
 
@@ -102,12 +102,18 @@ public class MapContinent
 	
 	int landAdj(int x, int y) {//counts adjacent land tiles
 		int landCount = 0;
-		if(x>0&&y>0&&x<GRID-1&&y<GRID-1) {
-			if(board[x+1][y]==LAND)landCount++;
-			if(board[x-1][y]==LAND)landCount++;
-			if(board[x][y+1]==LAND)landCount++;
-			if(board[x][y-1]==LAND)landCount++;
-		}
+			if(x+1<GRID) {
+				if(board[x+1][y]==LAND)landCount++;
+			}
+			if(x-1>=0) {
+				if(board[x-1][y]==LAND)landCount++;
+			}
+			if(y+1<GRID) {
+				if(board[x][y+1]==LAND)landCount++;
+			}
+			if(y-1>=0) {
+				if(board[x][y-1]==LAND)landCount++;
+			}
 		return landCount;
 	}
 
@@ -127,7 +133,7 @@ public class MapContinent
 	}
 
 	void findLakes(int x, int y) {
-		if(x==0||y==0||x==GRID-1||y==GRID-1) {
+		if(x==0||y==0||x==GRID-1||y==GRID-1) {//finds oceans when lake touches edge of board
 			findOceans(x,y);
 		}
 		if(x>=0&&y>=0&&x<GRID&&y<GRID) {//for lakes in the middle of the map
@@ -225,7 +231,7 @@ public class MapContinent
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 
-			//Draw white grid
+//			Draw white grid
 			g.setColor(Color.WHITE);
 			for (int i=0;i<GRID;i++) {
 				g.drawLine(blockX*i,0,blockX*i,jpanH);
@@ -271,22 +277,37 @@ public class MapContinent
 
 				//allow the right mouse button to toggle/cycle the terrain
 				if (e.getButton() != MouseEvent.BUTTON1) {
-					switch (board[i][j]) {
-					case LAND:
-						board[i][j] = EMPTY;
-						break;
-					default:
-						board[i][j] = LAND;
-					}
+//					switch (board[i][j]) {
+//					case LAND:
+//						board[i][j] = EMPTY;
+//						break;
+//					default:
+//						board[i][j] = LAND;
+//					}
+					contNum = (int)(Math.random()*4)+1;
+					landTiles=0;
+					initGame();
+					makeContinents();
 					repaint();
 					return;
 				}
 
 				if(board[i][j]==EMPTY)findLakes(i,j);								
 				repaint();
-			}		
+			}
 		} //end of MyMouseListener class
-
+		class MyKeyListener extends KeyAdapter{
+			public void keyPressed(KeyEvent e) {	
+					if(e.getKeyCode()==KeyEvent.VK_SPACE) {
+						contNum = (int)(Math.random()*4)+1;
+						landTiles=0;
+						initGame();
+						makeContinents();
+						repaint();
+						return;
+					}
+				}
+			}
 	} //end of DrawingPanel class
 
 }
