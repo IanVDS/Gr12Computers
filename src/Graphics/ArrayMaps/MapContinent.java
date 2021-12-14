@@ -31,7 +31,7 @@ public class MapContinent
 
 	//global variables
 	int[][] board = new int[GRID][GRID];
-
+	JButton btn = new JButton("New Map");
 
 	int contNum = (int)(Math.random()*4)+1;
 	int landTiles = 0;
@@ -48,7 +48,7 @@ public class MapContinent
 			}
 		}
 
-//						makeRandomMap();
+		//						makeRandomMap();
 		makeContinents();
 	}
 
@@ -62,7 +62,7 @@ public class MapContinent
 		}
 		contGrow();
 	}
-	
+
 	void contGrow() {
 		while(landTiles<=NUM_LAND) {
 			for(int i=0;i<GRID;i++) {
@@ -90,7 +90,7 @@ public class MapContinent
 							board[i][j]=LAND;
 							landTiles++;
 						}
-						
+
 						if(landTiles>=NUM_LAND) break;
 
 					}
@@ -99,21 +99,21 @@ public class MapContinent
 			}
 		}
 	}
-	
+
 	int landAdj(int x, int y) {//counts adjacent land tiles
 		int landCount = 0;
-			if(x+1<GRID) {
-				if(board[x+1][y]==LAND)landCount++;
-			}
-			if(x-1>=0) {
-				if(board[x-1][y]==LAND)landCount++;
-			}
-			if(y+1<GRID) {
-				if(board[x][y+1]==LAND)landCount++;
-			}
-			if(y-1>=0) {
-				if(board[x][y-1]==LAND)landCount++;
-			}
+		if(x+1<GRID) {
+			if(board[x+1][y]==LAND)landCount++;
+		}
+		if(x-1>=0) {
+			if(board[x-1][y]==LAND)landCount++;
+		}
+		if(y+1<GRID) {
+			if(board[x][y+1]==LAND)landCount++;
+		}
+		if(y-1>=0) {
+			if(board[x][y-1]==LAND)landCount++;
+		}
 		return landCount;
 	}
 
@@ -161,7 +161,7 @@ public class MapContinent
 			}
 		}
 	}
-	
+
 	void findOceans(int x, int y) {//checks for oceans and changes lakes to oceans
 		if(board[x][y]==LAKE) {
 			board[x][y]=OCEAN;
@@ -197,6 +197,8 @@ public class MapContinent
 	void createAndShowGUI() {
 		JFrame frame = new JFrame("Map Continent");
 		DrawingPanel panel = new DrawingPanel();
+
+		panel.add(btn);
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		Container content = frame.getContentPane();	
 		content.add(panel, BorderLayout.CENTER);		
@@ -209,6 +211,7 @@ public class MapContinent
 
 	}
 
+
 	class DrawingPanel extends JPanel	//inner class
 	{		
 		int jpanW, jpanH;
@@ -218,7 +221,8 @@ public class MapContinent
 			setBackground(COLOURBACK);
 			this.setPreferredSize(new Dimension(GRID*SQSIZE,GRID*SQSIZE));
 			MyMouseListener ml = new MyMouseListener();
-			addMouseListener(ml);			
+			addMouseListener(ml);		
+			btn.addActionListener(new btnListener());
 		}
 
 		void initGraphics() {
@@ -231,7 +235,7 @@ public class MapContinent
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 
-//			Draw white grid
+			//			Draw white grid
 			g.setColor(Color.WHITE);
 			for (int i=0;i<GRID;i++) {
 				g.drawLine(blockX*i,0,blockX*i,jpanH);
@@ -242,7 +246,7 @@ public class MapContinent
 				for (int j=0;j<GRID;j++) {
 					colourRect(i,j,g);						
 				}
-			}			
+			}
 		}
 
 		void colourRect(int i, int j, Graphics g) {
@@ -277,43 +281,32 @@ public class MapContinent
 
 				//allow the right mouse button to toggle/cycle the terrain
 				if (e.getButton() != MouseEvent.BUTTON1) {
-//					switch (board[i][j]) {
-//					case LAND:
-//						board[i][j] = EMPTY;
-//						break;
-//					default:
-//						board[i][j] = LAND;
-//					}
-					contNum = (int)(Math.random()*4)+1;
-					landTiles=0;
-					initGame();
-					makeContinents();
-					repaint();
-					return;
+					switch (board[i][j]) {
+					case LAND:
+						board[i][j] = EMPTY;
+						break;
+					default:
+						board[i][j] = LAND;
+					}
 				}
 
 				if(board[i][j]==EMPTY)findLakes(i,j);								
 				repaint();
 			}
 		} //end of MyMouseListener class
-		
-		
-		class MyKeyListener implements KeyListener{
-			public void keyPressed(KeyEvent e) {	
-					if(e.getKeyCode()==KeyEvent.VK_SPACE) {
-						contNum = (int)(Math.random()*4)+1;
-						landTiles=0;
-						initGame();
-						makeContinents();
-						repaint();
-						return;
-					}
-				}
 
-			public void keyTyped(KeyEvent e) {}
-
-			public void keyReleased(KeyEvent e) {}
+		class btnListener implements ActionListener{//creates new map
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				contNum = (int)(Math.random()*4)+1;
+				landTiles=0;
+				initGame();
+				makeContinents();
+				repaint();
+				return;
 			}
+		}//end of btnListener class
+
 	} //end of DrawingPanel class
 
 }
