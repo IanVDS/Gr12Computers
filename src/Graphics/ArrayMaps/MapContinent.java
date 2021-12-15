@@ -1,11 +1,12 @@
 package Graphics.ArrayMaps;
-
+//Ian Van den Steen
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
 //Starting class for MapContinent program
+
 
 public class MapContinent
 {

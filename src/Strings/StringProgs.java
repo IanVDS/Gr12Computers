@@ -1,8 +1,8 @@
 package Strings;
-public class StringNumbers {
-
+//Ian Van den Steen
+public class StringProgs {
 	public static void main(String[] args) {
-		//Numbers
+		//increasing numbers
 		String s= "He has sneezed for the 5th time"; 
 		for(int i=0;i<s.length();i++) {
 			if(Integer.valueOf(s.charAt(i))>=48 && Integer.valueOf(s.charAt(i))<=57){
@@ -12,6 +12,8 @@ public class StringNumbers {
 			}
 		}
 		System.out.println(s);
+		
+		
 		System.out.println();
 		
 		
@@ -38,5 +40,24 @@ public class StringNumbers {
 			}
 		}
 		System.out.println(maxShared);
+		
+		
+		System.out.println();
+		
+		
+		//random word
+		String consenants = "bcdfghjklmnpqrstvwxz";
+		String vowels = "aeiouy";
+		String rndmWord = "";
+		for(int i=0;i<6;i++) {
+			rndmWord = rndmWord + consenants.charAt((int)(Math.random()*20));
+		}
+		int vwlIndx[] = {(int)Math.random()*6,(int)Math.random()*6};//index of vowel 1
+		while(vwlIndx[0]==vwlIndx[1]) vwlIndx[1] = (int)(Math.random()*6);//makes sure they are not the same
+		
+		for(int i=0;i<2;i++) {
+			rndmWord = rndmWord.replace(rndmWord.charAt(vwlIndx[i]),vowels.charAt((int)(Math.random()*6)));
+		}
+		System.out.println(rndmWord);
 	}
 }
