@@ -1,3 +1,4 @@
+package package1;
 
 public class Global {
 	static int x = 5;

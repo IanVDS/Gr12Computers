@@ -1,3 +1,4 @@
+package package1;
 //Ian Van den Steen
 
 import java.lang.Math.*;

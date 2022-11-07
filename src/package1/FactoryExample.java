@@ -1,3 +1,4 @@
+package package1;
 
 class FactoryExample{
 	public static void main(String[] args) {
